@@ -10,8 +10,9 @@
 
 Characteristic
 
-> * 面对对象，容易扩展
-> * 控件间相互通信
+- 面对对象，容易扩展
+
+- 控件间相互通信
 
 ## QtCreator
 
@@ -21,8 +22,9 @@ Characteristic
 
 Characteristic
 
-> * 逻辑与界面分离
->* 在不同系统中的程序可以在多平台上运行
+- 逻辑与界面分离
+
+- 在不同系统中的程序可以在多平台上运行
 
 ### Qt Creator文件结构
 
@@ -34,12 +36,12 @@ Characteristic
 
 ## Qt编译过程
 
-> 1. 编写源代码
-> 2. 修改环境变量
-> 3. 生成工程文件（qmake -project）
-> 4. 生成Makefile（qmake）
-> 5. 编译工程（mingw2-make）
-> 6. 运行生成exe文件
+1. 编写源代码
+2. 修改环境变量
+3. 生成工程文件（qmake -project）
+4. 生成Makefile（qmake）
+5. 编译工程（mingw2-make）
+6. 运行生成exe文件
 
 ## 控件
 
@@ -197,9 +199,9 @@ connect(×，×，×，×)；
 
 Characteristic:
 
-> 对象都是可以发出信号的，也是以函数形式存在的
->
-> 信号函数只有声明没有定义，槽函数有声明和定义
+- 对象都是可以发出信号的，也是以函数形式存在的
+
+- 信号函数只有声明没有定义，槽函数有声明和定义
 
 ### 自定义信号
 
@@ -256,21 +258,21 @@ void MyTcpServer::sendClientLog(QString IP, QString port, QString state){
 
 2. 使connect函数
 
-> * 宏定义形式
+- 宏定义形式
 
 ```c++
 //宏的形式
 connect(ui->cmdEdit,SIGNAL(returnPressed()),this,SLOT(on_commitButton_clicked()));
 ```
 
-> * 指针重载形式
+- 指针重载形式
 
 ```c++
 //指针的重载形式
 connect(ui->cancelButton, &QPushButton::clicked, this, &Widget::on_cancelButton_clicked);
 ```
 
-> * Lambda表达式
+- Lambda表达式
 
 ```c++
 //Lambda表达式
@@ -635,13 +637,13 @@ void MainWindow::mousePressEvent(QMouseEvent *m)
 
 ## Introduction
 
-​	服务器		        客户端
-
-> * socket	   	 socket
-> * bing            
-> * listen                      connect
-> * accept                   
-> * send/recv             send/recv
+|  服务器   | 客户端  |
+| :-------: | :-----: |
+|  socket   | socket  |
+|   bing    |         |
+|  listen   | connect |
+|  accept   |         |
+| send/recv | connect |
 
 与网络相关的，需先在工程文件中加 network
 
@@ -794,10 +796,13 @@ void Widget::clientInfoSlots()
 
 实现服务器端客户端发送不同消息方式
 
-> 1. 消息前缀或命令码
-> 2. 消息ID
-> 3. 固定的消息结构
-> 4. JSON格式
+- 消息前缀或命令码
+
+- 消息ID
+
+- 固定的消息结构
+
+- JSON格式
 
 1. 发送数据
 
