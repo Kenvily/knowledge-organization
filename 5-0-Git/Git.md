@@ -473,10 +473,11 @@ git pull remote_name branchName:localBranchName		# 从 remote_name 远程仓库�
 ### 推送数据到远程仓库
 
 ```shell
-git push remote_name branchName		# 推送分支与数据到远端仓库
-git push remote_name HEAD  				# 将本地的任何分支推送到远程仓库的同名分支
-git push remote_name tag_name 		# 显式地推送标签到共享服务器上
-git push remote_name --tags				# 一次性推送很多标签
+git push remote_name branchName				# 推送分支与数据到远端仓库
+git push -f remote_name branchName		# 强制推送分支与数据到远端仓库(确保本地为想要版本)
+git push remote_name HEAD  						# 将本地的任何分支推送到远程仓库的同名分支 
+git push remote_name tag_name 				# 显式地推送标签到共享服务器上
+git push remote_name --tags						# 一次性推送很多标签
 ```
 
 注
