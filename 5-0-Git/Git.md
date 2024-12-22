@@ -159,16 +159,21 @@ git init newDir 	# 在newDir目录下生成一个.git目录
 
 ### 克隆仓库
 
-使用git clone命令可以从Git仓库中拷贝项目。
+```shell
+git clone url 		# 从Git仓库中拷贝项目到本地
+```
 
-当你执行 `git clone` 命令的时候，默认配置下远程 Git 仓库中的每一个文件的每一个版本都将被拉取下来。
+如
 
 ```shell
-git clone <url> 		# url为git仓库地址
 git clone git://github.com/schacon/grit.git newgit	# 克隆远程仓库，目标目录名设为newgit
 ```
 
-自动将其添加为远程仓库并默认以 “origin” 为简写。
+注
+
+1. 远程 Git 仓库中的每一个文件的每一个版本都将被拉取下来
+2. 自动将其添加为远程仓库并默认以 “origin” 为简写
+3. 与直接下载zip压缩文件相比，多了.Git的配置管理文件，文件大小更大
 
 ### 查看当前状态
 
@@ -177,7 +182,7 @@ git status			# 查看当前状态（所在分支、进行的修改提交）
 git status -s 	# 更为紧凑的输出
 ```
 
-工作目录下的每一个文件都不外乎这两种状态：**已跟踪** 或**未跟踪(untracked)**。 已跟踪的文件是指那些被纳入了版本控制的文件；工作目录中除已跟踪文件外的其它所有文件都属于未跟踪文件，它们既不存在于上次快照的记录中，也没有被放入暂存区。
+工作目录下的每一个文件都不外乎这两种状态：**已跟踪**或**未跟踪(untracked)**。 已跟踪的文件是指那些被纳入了版本控制的文件；工作目录中除已跟踪文件外的其它所有文件都属于未跟踪文件，它们既不存在于上次快照的记录中，也没有被放入暂存区。
 
 ### 查看差异
 
@@ -254,9 +259,9 @@ git mv README.md ./newDir		# 移动
 其实，运行 `git mv` 就相当于运行了下面三条命令
 
 ```shell
-$ mv README.md README
-$ git rm README.md
-$ git add README
+mv README.md README
+git rm README.md
+git add README
 ```
 
 ## 历史版本
@@ -452,7 +457,7 @@ git remote show remote	# 查看某一个远程仓库的更多信息
 ### 提取远程仓库数据
 
 ```shell
-git fetch remote_name		# 拉取remote_name仓库中有但你没有的信息
+git fetch remote_name								# 拉取remote_name仓库中有但你没有的信息
 ```
 
 该命令执行完后需要执行git merge远程分支到你所在的分支，如
@@ -461,19 +466,26 @@ git fetch remote_name		# 拉取remote_name仓库中有但你没有的信息
 git merge remote_name/branchName		# 将 remote_name/branchName 分支上的更改合并到当前检出（checked out）的本地分支
 ```
 
-### 提取远程仓库数据并合并
+### 拉取远程仓库数据并合并
 
 ```shell
-git pull remote_name branchName		# 将远程仓库 remote_name 的 branchName 分支的更改拉取到本地  分支
+git pull remote_name branchName										# 将远程仓库 remote_name 的 branchName 分支的更改拉取到本地分支
 git pull remote_name branchName:localBranchName		# 从 remote_name 远程仓库的 branchName 分支拉取代码，并尝试合并到本地的 localBranchName 分支。如果本地分支不存在，Git 会创建它。
 ```
 
-无需执行git merge
+注
+
+1. 无需执行git merge
+2. 使用 `git pull` 时，如果远程仓库没有但本地有的文件，执行完后这些文件并不会直接消失，但可能会遇到以下几种情况
+   - 文件未被跟踪（Untracked Files）： 如果本地有的文件在远程仓库中不存在，并且这些文件也没有被 `git` 跟踪（即没有被添加到暂存区或提交过），那么这些文件会保持不变，它们不会被 `git pull` 影响
+   - 文件被忽略（Ignored Files）： 如果这些文件被 `.gitignore` 文件忽略，那么 `git pull` 也不会影响它们
+   - 文件被删除（Deleted Files）： 如果远程分支中的文件被删除了，而你的本地分支中还有这个文件，执行 `git pull` 后，Git 会提示有冲突。你可以选择保留本地的文件（即不删除），或者覆盖本地的文件以匹配远程仓库的状态
+   - 文件冲突（Conflicts）： 如果远程仓库中的文件被修改并提交了，而你的本地分支中也有这个文件，那么 `git pull` 合并时可能会产生冲突。你需要手动解决这些冲突，决定是保留本地的更改、远程的更改，还是两者的混合
 
 ### 推送数据到远程仓库
 
 ```shell
-git push remote_name branchName				# 推送分支与数据到远端仓库
+git push remote_name branchName				# 推送分支与数据到远端仓库指定分支（若分支不存在则自动创建）
 git push -f remote_name branchName		# 强制推送分支与数据到远端仓库(确保本地为想要版本)
 git push remote_name HEAD  						# 将本地的任何分支推送到远程仓库的同名分支 
 git push remote_name tag_name 				# 显式地推送标签到共享服务器上
