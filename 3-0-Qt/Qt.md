@@ -161,7 +161,7 @@ qDebug() << fileName;	//打印信息
 
 提示框，所含类别如下
 
-![messageBox](.\img\message-1.png)
+<img src=".\img\message-1.png" alt="messageBox" style="zoom:50%;" />
 
 ### 基本用法
 

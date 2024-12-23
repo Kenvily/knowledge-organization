@@ -75,7 +75,7 @@
 
 如果一个进程在用户态需要使用内核态的功能，就进行系统调用从而陷入内核，由操作系统代为完成。
 
-![截屏2024-12-21 下午7.22.35](./img/截屏2024-12-21 下午7.22.35.png)
+<img src="./img/截屏2024-12-21 下午7.22.35.png" alt="截屏2024-12-21 下午7.22.35" style="zoom:40%;" />
 
 Linux 的系统调用主要有以下这些
 
@@ -104,7 +104,7 @@ Linux 的系统调用主要有以下这些
 
 因为需要频繁地在用户态和核心态之间进行切换，所以会有一定的性能损失。
 
-![截屏2024-12-21 下午7.25.46](./img/截屏2024-12-21 下午7.25.46.png)
+<img src="./img/截屏2024-12-21 下午7.25.46.png" alt="截屏2024-12-21 下午7.25.46" style="zoom:50%;" />
 
 ## 中断分类
 
@@ -132,7 +132,7 @@ Linux 的系统调用主要有以下这些
 
 下图显示了 4 个程序创建了 4 个进程，这 4 个进程可以并发地执行。
 
-![截屏2024-12-21 下午7.31.12](./img/截屏2024-12-21 下午7.31.12.png)
+<img src="./img/截屏2024-12-21 下午7.31.12.png" alt="截屏2024-12-21 下午7.31.12" style="zoom:50%;" />
 
 ### 线程
 
@@ -142,7 +142,7 @@ Linux 的系统调用主要有以下这些
 
 例如QQ 和浏览器是两个进程，浏览器进程里面有很多线程，例如 HTTP 请求线程、事件响应线程、渲染线程等等，线程的并发执行使得在浏览器中点击一个新链接从而发起 HTTP 请求时，浏览器还可以响应用户的其它事件。
 
-![截屏2024-12-21 下午7.33.15](./img/截屏2024-12-21 下午7.33.15.png)
+<img src="./img/截屏2024-12-21 下午7.33.15.png" alt="截屏2024-12-21 下午7.33.15" style="zoom:25%;" />
 
 ### 区别
 
@@ -154,7 +154,7 @@ Linux 的系统调用主要有以下这些
 
 ## 进程状态的切换
 
-![截屏2024-12-21 下午7.38.09](./img/截屏2024-12-21 下午7.38.09.png)
+<img src="./img/截屏2024-12-21 下午7.38.09.png" alt="截屏2024-12-21 下午7.38.09" style="zoom:40%;" />
 
 - 就绪状态（ready）：等待被调度
 - 运行状态（running）
@@ -204,7 +204,7 @@ Linux 的系统调用主要有以下这些
 - 因为进程切换都要保存进程的信息并且载入新进程的信息，如果时间片太小，会导致进程切换得太频繁，在进程切换上就会花过多时间
 - 而如果时间片过长，那么实时性就不能得到保证
 
-![截屏2024-12-21 下午7.45.47](./img/截屏2024-12-21 下午7.45.47.png)
+<img src="./img/截屏2024-12-21 下午7.45.47.png" alt="截屏2024-12-21 下午7.45.47" style="zoom:40%;" />
 
 **2. 优先级调度**
 
@@ -222,7 +222,7 @@ Linux 的系统调用主要有以下这些
 
 可以将这种调度算法看成是时间片轮转调度算法和优先级调度算法的结合。
 
-![截屏2024-12-21 下午7.52.03](./img/截屏2024-12-21 下午7.52.03.png)
+<img src="./img/截屏2024-12-21 下午7.52.03.png" alt="截屏2024-12-21 下午7.52.03" style="zoom:40%;" />
 
 ### 实时系统
 
@@ -387,7 +387,7 @@ end;
 
 ### 哲学家进餐问题
 
-![截屏2024-12-21 下午8.30.46](./img/截屏2024-12-21 下午8.30.46.png)
+<img src="./img/截屏2024-12-21 下午8.30.46.png" alt="截屏2024-12-21 下午8.30.46" style="zoom:25%;" />
 
 五个哲学家围着一张圆桌，每个哲学家面前放着食物。哲学家的生活有两种交替活动：吃饭以及思考。当一个哲学家吃饭时，需要先拿起自己左右两边的两根筷子，并且一次只能拿起一根筷子。
 
@@ -415,196 +415,52 @@ void philosopher(int i) {
 
 ```c
 #define N 5
-#define LEFT (i + N - 1) % N // 左邻居
-#define RIGHT (i + 1) % N    // 右邻居
-#define THINKING 0
-#define HUNGRY   1
-#define EATING   2
 typedef int semaphore;
-int state[N];                // 跟踪每个哲学家的状态
-semaphore mutex = 1;         // 临界区的互斥，临界区是 state 数组，对其修改需要互斥
-semaphore s[N];              // 每个哲学家一个信号量
+
+semaphore chopstick[N] = {1,1,1,1,1};
 
 void philosopher(int i) {
     while(TRUE) {
-        think(i);
-        take_two(i);
-        eat(i);
-        put_two(i);
-    }
-}
-
-void take_two(int i) {
-    down(&mutex);
-    state[i] = HUNGRY;
-    check(i);
-    up(&mutex);
-    down(&s[i]); // 只有收到通知之后才可以开始吃，否则会一直等下去
-}
-
-void put_two(i) {
-    down(&mutex);
-    state[i] = THINKING;
-    check(LEFT); // 尝试通知左右邻居，自己吃完了，你们可以开始吃了
-    check(RIGHT);
-    up(&mutex);
-}
-
-void eat(int i) {
-    down(&mutex);
-    state[i] = EATING;
-    up(&mutex);
-}
-
-// 检查两个邻居是否都没有用餐，如果是的话，就 up(&s[i])，使得 down(&s[i]) 能够得到通知并继续执行
-void check(i) {         
-    if(state[i] == HUNGRY && state[LEFT] != EATING && state[RIGHT] !=EATING) {
-        state[i] = EATING;
-        up(&s[i]);
+      think();
+      Swait(chopstick[i+1]%5,chopstick[i]);		// 使用and信号量机制
+      eat();
+      Signal(chopstick[i+1]%5,chopstick[i]);
     }
 }
 ```
 
-### [#](https://www.cyc2018.xyz/计算机基础/操作系统基础/计算机操作系统 - 进程管理.html#_2-读者-写者问题)2. 读者-写者问题
+### 读者-写者问题
 
 允许多个进程同时对数据进行读操作，但是不允许读和写以及写和写操作同时发生。
 
-一个整型变量 count 记录在对数据进行读操作的进程数量，一个互斥量 count_mutex 用于对 count 加锁，一个互斥量 data_mutex 用于对读写的数据加锁。
-
 ```c
 typedef int semaphore;
-semaphore count_mutex = 1;
-semaphore data_mutex = 1;
-int count = 0;
+semaphore rmutex = 1;
+semaphore wmutex = 1;
+int readcount = 0;
 
 void reader() {
-    while(TRUE) {
-        down(&count_mutex);
-        count++;
-        if(count == 1) down(&data_mutex); // 第一个读者需要对数据进行加锁，防止写进程访问
-        up(&count_mutex);
-        read();
-        down(&count_mutex);
-        count--;
-        if(count == 0) up(&data_mutex);
-        up(&count_mutex);
-    }
+  while(TRUE) {
+    down(&rmutex);
+    if(readcount == 0) down(&wmutex);	//无读者无写者
+    readcount++;
+    up(&rmutex);						// 读开始
+    ...
+    perform read operation;
+    ...
+    down(&rmutex);
+    readcount--;						// 读完 
+    if(readcount == 0) up(&wmutex);		// 最后一个读完成
+    up(&rmutex);
+  }
 }
 
 void writer() {
-    while(TRUE) {
-        down(&data_mutex);
-        write();
-        up(&data_mutex);
-    }
-}
-```
-
-以下内容由 [@Bandi Yugandhar (opens new window)](https://github.com/yugandharbandi)提供。
-
-The first case may result Writer to starve. This case favous Writers i.e no writer, once added to the queue, shall be kept waiting longer than absolutely necessary(only when there are readers that entered the queue before the writer).
-
-```c
-int readcount, writecount;                   //(initial value = 0)
-semaphore rmutex, wmutex, readLock, resource; //(initial value = 1)
-
-//READER
-void reader() {
-<ENTRY Section>
- down(&readLock);                 //  reader is trying to enter
- down(&rmutex);                  //   lock to increase readcount
-  readcount++;                 
-  if (readcount == 1)          
-   down(&resource);              //if you are the first reader then lock  the resource
- up(&rmutex);                  //release  for other readers
- up(&readLock);                 //Done with trying to access the resource
-
-<CRITICAL Section>
-//reading is performed
-
-<EXIT Section>
- down(&rmutex);                  //reserve exit section - avoids race condition with readers
- readcount--;                       //indicate you're leaving
-  if (readcount == 0)          //checks if you are last reader leaving
-   up(&resource);              //if last, you must release the locked resource
- up(&rmutex);                  //release exit section for other readers
-}
-
-//WRITER
-void writer() {
-  <ENTRY Section>
-  down(&wmutex);                  //reserve entry section for writers - avoids race conditions
-  writecount++;                //report yourself as a writer entering
-  if (writecount == 1)         //checks if you're first writer
-   down(&readLock);               //if you're first, then you must lock the readers out. Prevent them from trying to enter CS
-  up(&wmutex);                  //release entry section
-
-<CRITICAL Section>
- down(&resource);                //reserve the resource for yourself - prevents other writers from simultaneously editing the shared resource
-  //writing is performed
- up(&resource);                //release file
-
-<EXIT Section>
-  down(&wmutex);                  //reserve exit section
-  writecount--;                //indicate you're leaving
-  if (writecount == 0)         //checks if you're the last writer
-   up(&readLock);               //if you're last writer, you must unlock the readers. Allows them to try enter CS for reading
-  up(&wmutex);                  //release exit section
-}
-```
-
-We can observe that every reader is forced to acquire ReadLock. On the otherhand, writers doesn’t need to lock individually. Once the first writer locks the ReadLock, it will be released only when there is no writer left in the queue.
-
-From the both cases we observed that either reader or writer has to starve. Below solutionadds the constraint that no thread shall be allowed to starve; that is, the operation of obtaining a lock on the shared data will always terminate in a bounded amount of time.
-
-```text
-int readCount;                  // init to 0; number of readers currently accessing resource
-
-// all semaphores initialised to 1
-Semaphore resourceAccess;       // controls access (read/write) to the resource
-Semaphore readCountAccess;      // for syncing changes to shared variable readCount
-Semaphore serviceQueue;         // FAIRNESS: preserves ordering of requests (signaling must be FIFO)
-
-void writer()
-{ 
-    down(&serviceQueue);           // wait in line to be servicexs
-    // <ENTER>
-    down(&resourceAccess);         // request exclusive access to resource
-    // </ENTER>
-    up(&serviceQueue);           // let next in line be serviced
-
-    // <WRITE>
-    writeResource();            // writing is performed
-    // </WRITE>
-
-    // <EXIT>
-    up(&resourceAccess);         // release resource access for next reader/writer
-    // </EXIT>
-}
-
-void reader()
-{ 
-    down(&serviceQueue);           // wait in line to be serviced
-    down(&readCountAccess);        // request exclusive access to readCount
-    // <ENTER>
-    if (readCount == 0)         // if there are no readers already reading:
-        down(&resourceAccess);     // request resource access for readers (writers blocked)
-    readCount++;                // update count of active readers
-    // </ENTER>
-    up(&serviceQueue);           // let next in line be serviced
-    up(&readCountAccess);        // release access to readCount
-
-    // <READ>
-    readResource();             // reading is performed
-    // </READ>
-
-    down(&readCountAccess);        // request exclusive access to readCount
-    // <EXIT>
-    readCount--;                // update count of active readers
-    if (readCount == 0)         // if there are no readers left:
-        up(&resourceAccess);     // release resource access for all
-    // </EXIT>
-    up(&readCountAccess);        // release access to readCount
+  while(TRUE) {
+    down(&wmutex);
+    perform write operation;
+    up(&wmutex);
+  }
 }
 ```
 
@@ -632,7 +488,7 @@ int pipe(int fd[2]);
 - 只支持半双工通信（单向交替传输）
 - 只能在父子进程或者兄弟进程中使用
 
-![截屏2024-12-21 下午8.39.10](./img/截屏2024-12-21 下午8.39.10.png)
+<img src="./img/截屏2024-12-21 下午8.39.10.png" alt="截屏2024-12-21 下午8.39.10" style="zoom:40%;" />
 
 ### FIFO
 
@@ -647,7 +503,7 @@ int mkfifoat(int fd, const char *path, mode_t mode);
 
 FIFO 常用于客户-服务器应用程序中，FIFO 用作汇聚点，在客户进程和服务器进程之间传递数据。
 
-![截屏2024-12-21 下午8.40.23](./img/截屏2024-12-21 下午8.40.23.png)
+<img src="./img/截屏2024-12-21 下午8.40.23.png" alt="截屏2024-12-21 下午8.40.23" style="zoom:40%;" />
 
 ### 消息队列
 
@@ -675,13 +531,369 @@ FIFO 常用于客户-服务器应用程序中，FIFO 用作汇聚点，在客户
 
 # 死锁
 
+## 必要条件
+
+<img src="./img/截屏2024-12-23 上午5.41.19.png" alt="截屏2024-12-23 上午5.41.19" style="zoom:40%;" />
+
+- 互斥条件：每个资源要么已经分配给了一个进程，要么就是可用的
+- 占有和等待条件：已经得到了某个资源的进程可以再请求新的资源
+- 不可抢占条件：已经分配给一个进程的资源不能强制性地被抢占，它只能被占有它的进程显式地释放
+- 环路等待条件：有两个或者两个以上的进程组成一条环路，该环路中的每个进程都在等待下一个进程所占有的资源
+
+## 处理方法
+
+主要有以下四种方法
+
+- 鸵鸟策略
+- 死锁检测与死锁恢复
+- 死锁预防
+- 死锁避免
+
+## 鸵鸟策略
+
+把头埋在沙子里，假装根本没发生问题。
+
+因为解决死锁问题的代价很高，因此鸵鸟策略这种不采取任务措施的方案会获得更高的性能。
+
+当发生死锁时不会对用户造成多大影响，或发生死锁的概率很低，可以采用鸵鸟策略。
+
+大多数操作系统，包括 Unix，Linux 和 Windows，处理死锁问题的办法仅仅是忽略它。
+
+## 死锁检测与死锁恢复
+
+不试图阻止死锁，而是当检测到死锁发生时，采取措施进行恢复。
+
+### 每种进程一个资源的死锁检测
+
+<img src="./img/截屏2024-12-23 上午5.45.01.png" alt="截屏2024-12-23 上午5.45.01" style="zoom:40%;" />
+
+上图为资源分配图，其中方框表示资源，圆圈表示进程。资源指向进程表示该资源已经分配给该进程，进程指向资源表示进程请求获取该资源。
+
+图 a 可以抽取出环，如图 b，它满足了**环路等待条件**，因此会发生死锁。
+
+每种类型一个资源的死锁检测算法是通过检测有向图是否存在环来实现，从一个节点出发进行深度优先搜索，对访问过的节点进行标记，如果访问了已经标记的节点，就表示有向图存在环，也就是检测到死锁的发生。
+
+### 每种进程多个资源的死锁检测
+
+<img src="./img/截屏2024-12-23 上午5.47.45.png" alt="截屏2024-12-23 上午5.47.45" style="zoom:40%;" />
+
+上图中，有三个进程四个资源，每个数据代表的含义如下
+
+- E 向量：资源总量
+- A 向量：资源剩余量
+- C 矩阵：每个进程所拥有的资源数量，每一行都代表一个进程拥有资源的数量
+- R 矩阵：每个进程请求的资源数量
+
+进程 P1 和 P2 所请求的资源都得不到满足，只有进程 P3 可以，让 P3 执行，之后释放 P3 拥有的资源，此时 A = (2 2 2 0)。P2 可以执行，执行后释放 P2 拥有的资源，A = (4 2 2 1) 。P1 也可以执行。所有进程都可以顺利执行，没有死锁。
+
+算法总结如下
+
+每个进程最开始时都不被标记，执行过程有可能被标记。当算法结束时，任何没有被标记的进程都是死锁进程。
+
+1. 寻找一个没有标记的进程 Pi，它所请求的资源小于等于 A
+2. 如果找到了这样一个进程，那么将 C 矩阵的第 i 行向量加到 A 中，标记该进程，并转回 1.
+3. 如果没有这样一个进程，算法终止
+
+### 死锁恢复
+
+- 利用抢占恢复
+- 利用回滚恢复
+- 通过杀死进程恢复
+
+## 死锁预防
+
+在程序运行之前预防发生死锁，通过破坏产生死锁的必要条件一个或多个来实现。
+
+### 破坏互斥条件
+
+例如假脱机打印机技术允许若干个进程同时输出，唯一真正请求物理打印机的进程是打印机守护进程。
+
+### 破坏占有和等待条件
+
+一种实现方式是规定所有进程在开始执行前请求所需要的全部资源。
+
+### 破坏不可抢占条件
+
+### 破坏环路等待
+
+给资源统一编号，进程只能按编号顺序来请求资源。
+
+## 死锁避免
+
+在程序运行时避免发生死锁。
+
+### 安全状态
+
+<img src="./img/截屏2024-12-23 上午6.04.54.png" alt="截屏2024-12-23 上午6.04.54" style="zoom:50%;" />
+
+图 a 的第二列 Has 表示已拥有的资源数，第三列 Max 表示总共需要的资源数，Free 表示还有可以使用的资源数。从图 a 开始出发，先让 B 拥有所需的所有资源（图 b），运行结束后释放 B，此时 Free 变为 5（图 c）；接着以同样的方式运行 C 和 A，使得所有进程都能成功运行，因此可以称图 a 所示的状态时安全的。
+
+定义：如果没有死锁发生，并且即使所有进程突然请求对资源的最大需求，也仍然存在某种调度次序能够使得每一个进程运行完毕，则称该状态是安全的。
+
+安全状态的检测与死锁的检测类似，因为安全状态必须要求不能发生死锁。
+
+###  单个资源的银行家算法
+
+<img src="./img/截屏2024-12-23 上午6.09.16.png" alt="截屏2024-12-23 上午6.09.16" style="zoom:50%;" />
+
+上图 c 为不安全状态，因此算法会拒绝进程c的请求，从而避免进入图 c 中的状态。
+
+### 多个资源的银行家算法
+
+<img src="./img/截屏2024-12-23 上午6.12.06.png" alt="截屏2024-12-23 上午6.12.06" style="zoom:50%;" />
+
+上图中有五个进程，四个资源。左边的图表示已经分配的资源，右边的图表示还需要分配的资源。最右边的 E、P 以及 A 分别表示：总资源、已分配资源以及可用资源，注意这三个为向量，而不是具体数值，例如 A=(1020)，表示 4 个资源分别还剩下 1/0/2/0。
+
+检查一个状态是否安全的算法如下
+
+- 查找右边的矩阵是否存在一行小于等于向量 A。如果不存在这样的行，那么系统将会发生死锁，状态是不安全的
+- 假若找到这样一行，将该进程标记为终止，并将其已分配资源加到 A 中
+- 重复以上两步，直到所有进程都标记为终止，则状态时安全的
+
+如果一个状态不是安全的，需要拒绝进入这个状态。
+
 # 内存管理
+
+## 虚拟内存
+
+虚拟内存的目的是为了让物理内存扩充成更大的**逻辑内存**，从而让程序获得更多的可用内存。
+
+为了更好的管理内存，操作系统将内存抽象成**地址空间**。每个程序拥有自己的地址空间，这个地址空间被分割成多个块，每一块称为一页。这些页被映射到物理内存，但不需要映射到连续的物理内存，也不需要所有页都必须在物理内存中。当程序引用到不在物理内存中的页时，由硬件执行必要的映射，将缺失的部分装入物理内存并重新执行失败的指令。
+
+从上面的描述中可以看出，虚拟内存允许程序不用将地址空间中的每一页都映射到物理内存，也就是说一个程序不需要全部调入内存就可以运行，这使得有限的内存运行大程序成为可能。例如有一台计算机可以产生 16 位地址，那么一个程序的地址空间范围是 0~64K。该计算机只有 32KB 的物理内存，虚拟内存技术允许该计算机运行一个 64K 大小的程序。
+
+<img src="./img/截屏2024-12-23 上午6.17.46.png" alt="截屏2024-12-23 上午6.17.46" style="zoom:50%;" />
+
+## 分页系统地址映射
+
+内存管理单元（MMU）管理着地址空间和物理内存的转换，其中的页表（Page table）存储着页（程序地址空间）和页框（物理内存空间）的映射表。
+
+一个虚拟地址分成两个部分，一部分存储页面号，一部分存储偏移量。
+
+下图的页表存放着 16 个页，这 16 个页需要用 4 个比特位来进行索引定位。例如对于虚拟地址（0010 000000000100），前 4 位是存储页面号 2，读取表项内容为（110 1），页表项最后一位表示是否存在于内存中，1 表示存在。后 12 位存储偏移量。这个页对应的页框的地址为 （110 000000000100）。
+
+<img src="./img/截屏2024-12-23 上午7.41.20.png" alt="截屏2024-12-23 上午7.41.20" style="zoom:40%;" />
+
+## 页面置换算法
+
+在程序运行过程中，如果要访问的页面不在内存中，就发生缺页中断从而将该页调入内存中。此时如果内存已无空闲空间，系统必须从内存中调出一个页面到磁盘对换区中来腾出空间。
+
+页面置换算法和缓存淘汰策略类似，可以将内存看成磁盘的缓存。在缓存系统中，缓存的大小有限，当有新的缓存到达时，需要淘汰一部分已经存在的缓存，这样才有空间存放新的缓存数据。
+
+页面置换算法的主要目标是使页面置换频率最低（也可以说缺页率最低）。
+
+### 最佳
+
+> OPT, Optimal replacement algorithm
+
+所选择的被换出的页面将是最长时间内不再被访问，通常可以保证获得最低的缺页率。
+
+是一种理论上的算法，因为无法知道一个页面多长时间不再被访问。
+
+举例：一个系统为某进程分配了三个物理块，并有如下页面引用序列
+
+```html
+7，0，1，2，0，3，0，4，2，3，0，3，2，1，2，0，1，7，0，1
+```
+
+开始运行时，先将 7, 0, 1 三个页面装入内存。当进程要访问页面 2 时，产生缺页中断，会将页面 7 换出，因为页面 7 再次被访问的时间最长。
+
+### 最近最久未使用
+
+> LRU, Least Recently Used
+
+虽然无法知道将来要使用的页面情况，但是可以知道过去使用页面的情况。LRU 将最近最久未使用的页面换出。
+
+为了实现 LRU，需要在内存中维护一个所有页面的链表。当一个页面被访问时，将这个页面移到链表表头。这样就能保证链表表尾的页面是最近最久未访问的。
+
+因为每次访问都需要更新链表，因此这种方式实现的 LRU 代价很高。
+
+```html
+4，7，0，7，1，0，1，2，1，2，6
+```
+
+<img src="./img/截屏2024-12-23 上午7.38.13.png" alt="截屏2024-12-23 上午7.38.13" style="zoom:40%;" />
+
+### 最近未使用
+
+> NRU, Not Recently Used
+
+每个页面都有两个状态位：R 与 M，当页面被访问时设置页面的 R=1，当页面被修改时设置 M=1。其中 R 位会定时被清零。
+
+可以将页面分成以下四类
+
+- R=0，M=0
+- R=0，M=1
+- R=1，M=0
+- R=1，M=1
+
+当发生缺页中断时，NRU 算法随机地从类编号最小的非空类中挑选一个页面将它换出。
+
+NRU 优先换出已经被修改的脏页面（R=0，M=1），而不是被频繁使用的干净页面（R=1，M=0）。
+
+### 先进先出
+
+> FIFO, First In First Out
+
+选择换出的页面是最先进入的页面。
+
+该算法会将那些经常被访问的页面换出，导致缺页率升高。
+
+### 第二次机会算法
+
+FIFO 算法可能会把经常使用的页面置换出去，为了避免这一问题，对该算法做一个简单的修改。
+
+当页面被访问 (读或写) 时设置该页面的 R 位为 1。需要替换的时候，检查最老页面的 R 位。如果 R 位是 0，那么这个页面既老又没有被使用，可以立刻置换掉；如果是 1，就将 R 位清 0，并把该页面放到链表的尾端，修改它的装入时间使它就像刚装入的一样，然后继续从链表的头部开始搜索。
+
+<img src="./img/截屏2024-12-23 上午6.35.15.png" alt="截屏2024-12-23 上午6.35.15" style="zoom:50%;" />
+
+### 时钟
+
+> Clock
+
+第二次机会算法需要在链表中移动页面，降低了效率。时钟算法使用环形链表将页面连接起来，再使用一个指针指向最老的页面。
+
+<img src="./img/截屏2024-12-23 上午6.36.22.png" alt="截屏2024-12-23 上午6.36.22" style="zoom:40%;" />
+
+## 分段
+
+虚拟内存采用的是分页技术，也就是将地址空间划分成固定大小的页，每一页再与内存进行映射。
+
+下图为一个编译器在编译过程中建立的多个表，有 4 个表是动态增长的，如果使用分页系统的一维地址空间，动态增长的特点会导致覆盖问题的出现。
+
+<img src="./img/截屏2024-12-23 上午6.37.44.png" alt="截屏2024-12-23 上午6.37.44" style="zoom:30%;" />
+
+分段的做法是把每个表分成段，一个段构成一个独立的地址空间。每个段的长度可以不同，并且可以动态增长。
+
+<img src="./img/截屏2024-12-23 上午6.39.10.png" alt="截屏2024-12-23 上午6.39.10" style="zoom:40%;" />
+
+## 段页式
+
+程序的地址空间划分成多个拥有独立地址空间的段，每个段上的地址空间划分成大小相同的页。这样既拥有分段系统的共享和保护，又拥有分页系统的虚拟内存功能。
+
+## 分页与分段的比较
+
+- 对程序员的透明性：分页透明，但是分段需要程序员显式划分每个段
+- 地址空间的维度：分页是一维地址空间，分段是二维的
+- 大小是否可以改变：页的大小不可变，段的大小可以动态改变
+- 出现的原因：分页主要用于实现虚拟内存，从而获得更大的地址空间；分段主要是为了使程序和数据可以被划分为逻辑上独立的地址空间并且有助于共享和保护
 
 # 设备管理
 
+## 磁盘结构
+
+- 盘面（Platter）：一个磁盘有多个盘面
+- 磁道（Track）：盘面上的圆形带状区域，一个盘面可以有多个磁道
+- 扇区（Track Sector）：磁道上的一个弧段，一个磁道可以有多个扇区，它是最小的物理储存单位，目前主要有 512 bytes 与 4 K 两种大小
+- 磁头（Head）：与盘面非常接近，能够将盘面上的磁场转换为电信号（读），或者将电信号转换为盘面的磁场（写）
+- 制动手臂（Actuator arm）：用于在磁道之间移动磁头
+- 主轴（Spindle）：使整个盘面转动
+
+<img src="./img/截屏2024-12-23 上午7.06.35.png" alt="截屏2024-12-23 上午7.06.35" style="zoom:50%;" />
+
+## 磁盘调度算法
+
+读写一个磁盘块的时间的影响因素有
+
+- 旋转时间（主轴转动盘面，使得磁头移动到适当的扇区上）
+- 寻道时间（制动手臂移动，使得磁头移动到适当的磁道上）
+- 实际的数据传输时间
+
+其中，寻道时间最长，因此磁盘调度的主要目标是使磁盘的平均寻道时间最短。
+
+### 先来先服务
+
+> FCFS, First Come First Served
+
+按照磁盘请求的顺序进行调度。
+
+优点是公平和简单。缺点也很明显，因为未对寻道做任何优化，使平均寻道时间可能较长。
+
+### 最短寻道时间优先
+
+> SSTF, Shortest Seek Time First
+
+优先调度与当前磁头所在磁道距离最近的磁道。
+
+虽然平均寻道时间比较低，但是不够公平。如果新到达的磁道请求总是比一个在等待的磁道请求近，那么在等待的磁道请求会一直等待下去，也就是出现饥饿现象。具体来说，两端的磁道请求更容易出现饥饿现象。
+
+<img src="./img/截屏2024-12-23 上午7.08.35.png" alt="截屏2024-12-23 上午7.08.35" style="zoom:50%;" />
+
+### 电梯算法
+
+> SCAN
+
+电梯总是保持一个方向运行，直到该方向没有请求为止，然后改变运行方向。
+
+电梯算法（扫描算法）和电梯的运行过程类似，总是按一个方向来进行磁盘调度，直到该方向上没有未完成的磁盘请求，然后改变方向。
+
+因为考虑了移动方向，因此所有的磁盘请求都会被满足，解决了 SSTF 的饥饿问题。
+
+<img src="./img/截屏2024-12-23 上午7.15.54.png" alt="截屏2024-12-23 上午7.15.54" style="zoom:50%;" />
+
 # 链接
 
+## 编译系统
 
+以下是一个 hello.c 程序
+
+```c
+#include <stdio.h>
+
+int main()
+{
+    printf("hello, world\n");
+    return 0;
+}
+```
+
+在 Unix 系统上，由编译器把源文件转换为目标文件。
+
+```bash
+gcc -o hello hello.c
+```
+
+这个过程大致如下
+
+<img src="./img/截屏2024-12-23 上午7.20.30.png" alt="截屏2024-12-23 上午7.20.30" style="zoom:50%;" />
+
+- 预处理阶段：处理以 # 开头的预处理命令
+- 编译阶段：翻译成汇编文件
+- 汇编阶段：将汇编文件翻译成可重定位目标文件
+- 链接阶段：将可重定位目标文件和 printf.o 等单独预编译好的目标文件进行合并，得到最终的可执行目标文件
+
+## 目标文件
+
+- 可执行目标文件：可以直接在内存中执行
+- 可重定位目标文件：可与其它可重定位目标文件在链接阶段合并，创建一个可执行目标文件
+- 共享目标文件：这是一种特殊的可重定位目标文件，可以在运行时被动态加载进内存并链接
+
+## 静态链接
+
+静态链接器以一组可重定位目标文件为输入，生成一个完全链接的可执行目标文件作为输出。
+
+链接器主要完成以下两个任务
+
+- 符号解析：每个符号对应于一个函数、一个全局变量或一个静态变量，符号解析的目的是将每个符号引用与一个符号定义关联起来
+- 重定位：链接器通过把每个符号定义与一个内存位置关联起来，然后修改所有对这些符号的引用，使得它们指向这个内存位置
+
+<img src="./img/截屏2024-12-23 上午7.20.41.png" alt="截屏2024-12-23 上午7.20.41" style="zoom:40%;" />
+
+## 动态链接
+
+静态库有以下两个问题
+
+- 当静态库更新时那么整个程序都要重新进行链接
+- 对于 printf 这种标准函数库，如果每个程序都要有代码，这会极大浪费资源
+
+共享库是为了解决静态库的这两个问题而设计的，在 Linux 系统中通常用 .so 后缀来表示，Windows 系统上它们被称为 DLL。
+
+它具有以下特点
+
+- 在给定的文件系统中一个库只有一个文件，所有引用该库的可执行目标文件都共享这个文件，它不会被复制到引用它的可执行文件中
+- 在内存中，一个共享库的 .text 节（已编译程序的机器代码）的一个副本可以被不同的正在运行的进程共享
+
+<img src="./img/截屏2024-12-23 上午7.25.54.png" alt="截屏2024-12-23 上午7.25.54" style="zoom:40%;" />
 
 
 

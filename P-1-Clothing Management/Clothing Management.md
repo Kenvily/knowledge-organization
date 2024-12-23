@@ -167,4 +167,4 @@
 
 <img src="./img/image38.png" style="zoom:70%;" />
 
-<img src="./img/image39.png" style="zoom:70%;" />
+<img src="./img/image39.png" style="zoom:60%;" />

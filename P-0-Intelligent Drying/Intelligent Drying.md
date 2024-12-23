@@ -45,7 +45,7 @@ MCU（单片机）采用STM32精英板，整体分为三个模块
 
 正点原子STM32F103ZET6（MCU），具有丰富的I/O引脚（约110个），在不接外设的情况下满足项目功能需求。
 
-<img src="./img/image33.png" style="zoom:80%;" />
+<img src="./img/image33.png" style="zoom:50%;" />
 
 ## 引脚模式
 
@@ -83,7 +83,7 @@ MCU（单片机）采用STM32精英板，整体分为三个模块
 
 # 串行通信接口
 
-<img src="./img/image34.png" alt="IMG_256" style="zoom:60%;" />
+<img src="./img/image34.png" alt="IMG_256" style="zoom:50%;" />
 
 ## UART
 
