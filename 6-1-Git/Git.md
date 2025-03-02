@@ -160,13 +160,14 @@ git init newDir 	# 在newDir目录下生成一个.git目录
 ### 克隆仓库
 
 ```shell
-git clone url 		# 从Git仓库中拷贝项目到本地
+git clone <repository_url> 														# 将Git仓库master分支拷贝到本地
+git clone -b <repository_branch> <repository_url> 		# 将Git仓库指定分支拷贝到本地
 ```
 
 如
 
 ```shell
-git clone git://github.com/schacon/grit.git newgit	# 克隆远程仓库，目标目录名设为newgit
+git clone git://github.com/schacon/grit newgit	# 克隆远程仓库，目标目录名设为newgit
 ```
 
 注
@@ -289,7 +290,9 @@ git log --stat  		# 附带一系列的总结性选项
 ### 版本穿梭
 
 ```shell
-git reset --hard <version_num>		# 转到该版本
+git checkout <commit_hash>			# 转到该版本，不重置头指针，进入头分离指针状态 常用于查看代码
+git reset <commit_hash>					# 重置版本，重置头指针，重置暂存区，不重置工作区 不常用
+git reset --hard <version_num>	# 重置版本，重置头指针，重置暂存区和工作区
 ```
 
 注

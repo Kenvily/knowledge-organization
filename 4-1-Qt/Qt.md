@@ -880,7 +880,7 @@ connect(socket,&QTcpSocket::connected,[this](){
 
 ## 步骤
 
-1. 主.cpp文件中进行服务器监听
+1. main.cpp文件中进行服务器监听
 
 ```c++
 // ====服务器监听===== //
@@ -993,8 +993,8 @@ void myThread::run()
 }
 ```
 
-3. QT的主线程负责刷新界面
-4. ui只能在对应的类中进行操作ui
+3. Qt的主线程负责刷新界面
+4. UI只能在对应的类中进行操作UI
 
 ```c++
 void myThread::clientInfoSlots(){
@@ -1208,7 +1208,7 @@ if(data.startsWith("CMD4:"))       //新增
 1. 新建Qt Resource file，如：res.qrc
 2. 添加前缀
 3. 添加文件
-4. 复制资源路径 即可
+4. 复制资源路径即可
 
 ## 发布步骤
 

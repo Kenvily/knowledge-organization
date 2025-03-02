@@ -8,7 +8,7 @@ EDA软件（Electronic Design Automation，电子设计自动化）是用于设�
 
 # 器件
 
-## 电阻
+## 电阻 
 
 可变电阻又称电位器。
 
@@ -421,7 +421,7 @@ EDA软件（Electronic Design Automation，电子设计自动化）是用于设�
 * 实物图
 * 3D模型
 
-布局传递：ctrl+shift+x
+布局传递：ctrl+shift+x。
 
 # 数据手册
 

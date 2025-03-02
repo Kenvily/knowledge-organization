@@ -33,7 +33,7 @@
 ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags, struct sockaddr *src_addr, socklen_t *addrlen);
 ```
 
-![截屏2025-01-19 上午1.49.34](./img/截屏2025-01-19 上午1.49.34.png)
+<img src="./img/截屏2025-01-19 上午1.49.34.png" alt="截屏2025-01-19 上午1.49.34" style="zoom: 67%;" />
 
 ### 非阻塞式 I/O
 
@@ -41,7 +41,7 @@ ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags, struct sockaddr *
 
 由于 CPU 要处理更多的系统调用，因此这种模型的 CPU 利用率比较低。
 
-![截屏2025-01-19 上午1.51.21](./img/截屏2025-01-19 上午1.51.21.png)
+<img src="./img/截屏2025-01-19 上午1.51.21.png" alt="截屏2025-01-19 上午1.51.21" style="zoom:67%;" />
 
 ### I/O 复用
 
@@ -51,7 +51,7 @@ ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags, struct sockaddr *
 
 如果一个 Web 服务器没有 I/O 复用，那么每一个 Socket 连接都需要创建一个线程去处理。如果同时有几万个连接，那么就需要创建相同数量的线程。相比于多进程和多线程技术，I/O 复用不需要进程线程创建和切换的开销，系统开销更小。
 
-![截屏2025-01-19 上午1.53.52](./img/截屏2025-01-19 上午1.53.52.png)
+<img src="./img/截屏2025-01-19 上午1.53.52.png" alt="截屏2025-01-19 上午1.53.52" style="zoom:67%;" />
 
 ### 信号驱动 I/O
 
@@ -59,7 +59,7 @@ ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags, struct sockaddr *
 
 相比于非阻塞式 I/O 的轮询方式，信号驱动 I/O 的 CPU 利用率更高。
 
-![截屏2025-01-19 上午1.59.10](./img/截屏2025-01-19 上午1.59.10.png)
+<img src="./img/截屏2025-01-19 上午1.59.10.png" alt="截屏2025-01-19 上午1.59.10" style="zoom: 67%;" />
 
 ### 异步 I/O
 
@@ -67,7 +67,7 @@ ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags, struct sockaddr *
 
 异步 I/O 与信号驱动 I/O 的区别在于，信号驱动 I/O 的信号是通知应用进程可以开始 I/O，而异步 I/O 的信号是通知应用进程 I/O 完成。
 
-![截屏2025-01-19 上午2.07.01](./img/截屏2025-01-19 上午2.07.01.png)
+<img src="./img/截屏2025-01-19 上午2.07.01.png" alt="截屏2025-01-19 上午2.07.01" style="zoom:67%;" />
 
 ## 五大 I/O 模型比较
 
@@ -78,7 +78,7 @@ ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags, struct sockaddr *
 
 非阻塞式 I/O 、信号驱动 I/O 和异步 I/O 在第一阶段不会阻塞。
 
-![截屏2025-01-19 上午2.10.08](./img/截屏2025-01-19 上午2.10.08.png)
+<img src="./img/截屏2025-01-19 上午2.10.08.png" alt="截屏2025-01-19 上午2.10.08" style="zoom: 67%;" />
 
 # I/O 复用
 
