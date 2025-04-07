@@ -84,23 +84,6 @@ while(N--){
 * double：更大范围的浮点数，至少精确表示**十位**有效数字；使用**%lf**打印；
 * long double：更大范围的浮点数，比double有更多的有效数字位数；使用<font color = red>**%Lf**</font>打印。
 
-## 指针
-
-+ &：取地址运算符
-
-+ *：间接寻址，也称取值运算符
-
-## # define 
-
->1. define 宏名 宏值 
->2. define 宏名（参数列表） 表达式
-
-## typedef
-
-```c
-typedef long long LL
-```
-
 ## stack
 
 栈(stack)是一种**后进先出（LIFO）**的数据结构，它**只允许在一端**（称为栈顶）进行插入和删除操作，收录在STL（C++标准库）里，使用时要先包含头文<font color = 6b8e23>***#include\<stack>***</font>。

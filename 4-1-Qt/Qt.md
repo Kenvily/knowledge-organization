@@ -2,39 +2,97 @@
 
 [toc]
 
-# Qt介绍
+# Qt
 
-## Introduction
+## 简介
 
 跨平台C++图形用户界面应用程序开发框架，既可以开发GUI程序，也可用于开发非GUI程序，如控制台工具和服务器。
 
-Characteristic
+**特点**
 
 - 面对对象，容易扩展
 
 - 控件间相互通信
 
-## QtCreator
 
-### Introduction
+## 文件结构
 
-用于Qt开发的轻量级跨平台集成开发环境。
+**.pro**
 
-Characteristic
+pro文件是整个项目的管理文件。Qt使用qmake工具，根据pro文件，生成makefile进而编译整个项目。
 
-- 逻辑与界面分离
+```shell
+QT       += core gui
+#向QT项目中加入core和gui模块
+#Qt中有很多模块，比如网络，数据库，多媒体，蓝牙等等，用到这些功能的时候，都需要在QT中添加相应的模块。
 
-- 在不同系统中的程序可以在多平台上运行
+# 指定项目输出名称
+TARGET = QtSerialPortView
 
-### Qt Creator文件结构
+# 指定项目类型：app 应用程序、lib 库、subdirs 子目录项目还是其他类型的项目
+TEMPLATE = app
 
-* .pro：工程文件
-* .h：头文件
-* .cpp：源文件，main和类
-* .ui：界面文件
-* .user：本地配置文件，换设备时记得删除
+CONFIG += c++11
+#使用C++的版本，是C++11，所以Qt5中增加了很多特性
 
-## Qt编译过程
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+#这个是版本高低导致的，大于QT4.0的模块，需要加入widgets
+
+#源文件
+SOURCES += \
+    main.cpp \
+    widget.cpp
+
+#头文件
+HEADERS += \
+    widget.h
+
+#Ui文件
+FORMS += \
+    widget.ui
+
+#资源文件
+ RESOURCES += \
+ src/img/img.qrc \
+ src/img/res.qrc
+
+# Default rules for deployment.
+qnx: target.path = /tmp/$${TARGET}/bin
+else: unix:!android: target.path = /opt/$${TARGET}/bin
+!isEmpty(target.path): INSTALLS += target
+```
+
+**.ui**
+
+ui文件是Qt根据用户的布置而生成的xml格式的文件，里面描述了部件如何进行布置，编译之后会将其生成C++格式的文件，这个文件用户在程序中不可见，但是可以对其进行调用。
+
+**.h和.cpp**
+
+在QT中实际见到的.h和.cpp文件，并不是最后编译用的.h和.cpp文件。这是用因为Qt使用了MOC（元对象编译器），MOC会为每个包含Q_OBJECT宏的文件提前进行一次编译，生成一个以moc_+原文件名 为名的源文件。这些文件在编译文件夹中可以找到。
+
+**.user**
+
+本地配置文件，换设备时记得删除。
+
+## qmake
+
+qmake 是 Qt 框架提供的一个构建工具，它可以根据项目的配置文件（.pro 文件）生成适用于不同编译器和操作系统的构建文件（如 Makefile）。
+
+**工作原理**
+
+qmake 通过解析 .pro 文件，根据文件中的指令和变量定义来生成相应的构建文件。然后，用户可以使用生成的构建文件来编译项目。
+
+**优点**
+
+- 与 Qt 框架集成：与 Qt 框架紧密结合，能够方便地管理 Qt 项目的编译和构建
+- 功能强大：提供了丰富的指令和变量，可以方便地管理项目的依赖关系、编译选项等
+- 易于使用：.pro 文件的语法相对简单，容易理解和使用
+
+**缺点**
+
+- 依赖 Qt 框架：主要用于 Qt 项目的编译和构建，对于非 Qt 项目来说不太适用
+
+## 编译过程
 
 1. 编写源代码
 2. 修改环境变量
@@ -43,65 +101,86 @@ Characteristic
 5. 编译工程（mingw2-make）
 6. 运行生成exe文件
 
-## 控件
+## 编译模式
 
-* 页面窗口
+- debug调试模式：编译后的可执行文件很大，带了很多调试符号信息等，方便开发阶段调试的时候进入具体的堆栈查看值。会打开所有的断言，运行阶段性能差速度慢，可能会有卡顿感觉
 
-> QWidget：不带菜单栏
->
-> QMainwindow：带有菜单栏
+- release发布模式：编译后的可执行文件很小，不带任何调试符号信息，一般用于打包发布程序。由于经过了各种优化，会关闭所有断言，运行阶段性能最好，如果有卡顿那肯定是你的程序问题
 
-* 布局
+- profile概述模式：编译后的可执行文件比debug小很多比release大一点，带有部分调试符号信息，在debug和release之间取一个平衡，兼顾性能和调试，性能更优但是又方便调试
 
-> Vertical layout：垂直布局，界面全选垂直布局后，各组件随窗口大小变化而变化
->
-> horizontal layout：水平布局
->
-> grid layout：网格布局，如计算器
->
-> form layout:表单布局，一般用于组合控件
 
-* 按钮
+## QtCreator
 
-> push button：方框按钮
->
-> tool button：与前者差不多
->
-> radio button：点框
->
-> check box：复选框
+用于Qt开发的轻量级跨平台集成开发环境。
 
-* 垫子/弹簧
+**特点**
 
-> 隐形的，用于调整组件间间隔
+- 逻辑与界面分离
 
-* 单元视图
+- 在不同系统中的程序可以在多平台上运行
 
->  实现数据的现实和分离，常与数据库联用
->
-> table view：表单视图
+# 常用控件
 
-* 单元控件
+**页面窗口**
 
-> 文件管理系统常用
+- QWidget：不带菜单栏
+- QMainwindow：带有菜单栏
 
-* 容器
+**布局**
 
-> 容纳控件
+- Vertical layout：垂直布局，界面全选垂直布局后，各组件随窗口大小变化而变化
+- horizontal layout：水平布局
+- grid layout：网格布局，如计算器
+- form layout:表单布局，一般用于组合控件
 
-* 输入控件
+**按钮**
 
-> LineEdit：行编辑框
+- push button：方框按钮
+- tool button：与前者差不多
+- radio button：点框
+- check box：复选框
 
-> TextEdit：文本编辑框
+**垫子/弹簧**
 
-* 显示控件
+- 隐形的，用于调整组件间间隔
 
-> Label：标签
+**单元视图**
 
-# 基础知识
+实现数据的现实和分离，常与数据库联用。
 
-## 界面设置
+- table view：表单视图
+
+**单元控件**
+
+文件管理系统常用。
+
+**容器**
+
+容纳控件。
+
+**输入控件**
+
+- LineEdit：行编辑框
+- TextEdit：文本编辑框
+
+**显示控件**
+
+- Label：标签
+
+# QString
+
+类似于C++中的string。
+
+# qDebug
+
+进行调试。
+
+```c++
+qDebug() << fileName;	//打印信息
+```
+
+# 界面设置
 
 ```c++
 //设置窗口名称
@@ -122,13 +201,9 @@ ui->displayLineEdit->setFont(f);
 ui->equalButton->setStyleSheet("background-color:rgb(128,128,128)");
 ```
 
-## QString
+# 标签上显示图片
 
-类似于C++中的string
-
-## 标签上显示图片
-
-### QPixmap
+## QPixmap
 
 ```c++
 //标签显示图片
@@ -136,7 +211,7 @@ QPixmap pix("..\\..\\1.jpg");
 ui->label->setPixmap(pix);
 ```
 
-### QImage
+## QImage
 
 ```c++
 //标签显示图片
@@ -149,21 +224,13 @@ ui->label->setPixmap(QPixmap::fromImage(img));
 
 1. 适配图片：QLable -> scaleContents
 
-## qDebug
-
-进行调试
-
-```c++
-qDebug() << fileName;	//打印信息
-```
-
-## QMessageBox
+# QMessageBox
 
 提示框，所含类别如下
 
 <img src=".\img\message-1.png" alt="messageBox" style="zoom:50%;" />
 
-### 基本用法
+## 基本用法
 
 显示一个信息提示框
 
@@ -171,7 +238,7 @@ qDebug() << fileName;	//打印信息
 QMessageBox::warning(this,"连接提示","连接失败");
 ```
 
-### 进阶用法
+## 进阶用法
 
 显示一个选择框
 
@@ -193,17 +260,19 @@ if(ok==QMessageBox::Yes){
 connect(×，×，×，×)；
 ```
 
-## signals
+# 信号
+
+## 简介
 
 类似于java中监听器，用于发送信号。
 
-Characteristic:
+**特点**
 
 - 对象都是可以发出信号的，也是以函数形式存在的
 
 - 信号函数只有声明没有定义，槽函数有声明和定义
 
-### 自定义信号
+## 自定义信号
 
 1. .h头文件中声明自定义信号
 
@@ -244,19 +313,21 @@ void MyTcpServer::sendClientLog(QString IP, QString port, QString state){
 
 注
 
-1. 当信号的参数与槽函数的参数数量不同时，只能是信号的参数数量多于槽函数的参数数量，且前面相同数量的参数类型应一致，信号中多余的参数会被忽略。
+1. 当信号的参数与槽函数的参数数量不同时，只能是信号的参数数量多于槽函数的参数数量，且前面相同数量的参数类型应一致，信号中多余的参数会被忽略
 
-## slots
+# 槽
+
+## 简介
 
 类似于java中事件，用于触发信号后做出响应。
 
-## 添加槽函数方式
+## 添加槽函数
 
-1. 自动连接（无需使用connect函数）
+**自动连接（无需使用connect函数）**
 
 在.ui文件中为控件直接添加槽函数（无需connect显式关联）
 
-2. 使connect函数
+**使connect函数**
 
 - 宏定义形式
 
@@ -292,7 +363,7 @@ connect(ui->browseButton, &QPushButton::clicked,[this](){
 
 不同定时器各有一个不同的ID。
 
-### startTimer 
+**startTimer** 
 
 开启定时器
 
@@ -305,7 +376,7 @@ void Widget::on_startButton_clicked()
 //myTimerId为私有成员变量
 ```
 
-### killTimer
+**killTimer**
 
 关闭定时器
 
@@ -317,11 +388,11 @@ void Widget::on_stopButton_clicked()
 }
 ```
 
-### timeEvent
+**timeEvent**
 
-不同定时器每次TIMEOUT后都会自动调用该事件
+不同定时器每次TIMEOUT后都会自动调用该事件。
 
-### 示例
+**示例**
 
 1. 需先在头文件进行声明
 
@@ -356,7 +427,7 @@ void Widget::timerEvent(QTimerEvent *event)
 
 ## QTimer
 
-### start
+**start**
 
 ```c++
 void Widget::on_startButton_clicked()
@@ -366,7 +437,7 @@ void Widget::on_startButton_clicked()
 }
 ```
 
-### stop
+**stop**
 
 ```c++
 void Widget::on_stopButton_clicked()
@@ -376,7 +447,7 @@ void Widget::on_stopButton_clicked()
 }
 ```
 
-### 示例
+**示例**
 
 1. 首先需声明QTimer
 
@@ -417,15 +488,17 @@ void Widget::on_pushButton_clicked()
 
 ## 常用控件
 
->* menuBar:菜单栏
->* menu：菜单
->* action：动作（没有ui界面的转到槽）
+- menuBar：菜单栏
+- menu：菜单
+- action：动作（没有ui界面的转到槽）
 
 注
 
 1. QMenu对象，那么它本身没有setText()方法，因为QMenu是用来包含多个QAction的容器。如要在QMenu中显示带有文字的菜单项，你需要为QMenu添加QAction，然后为这些QAction设置文字和图标。
 
-## 关联动作的信号与槽
+## 常用操作
+
+**关联动作的信号与槽**
 
 ```c++
 //绑定新建的信号与槽
@@ -436,7 +509,7 @@ connect(ui->openAction,&QAction::triggered,this,&MainWindow::openAcionSlot);
 connect(ui->saveAction,&QAction::triggered,this,&MainWindow::saveAcionSlot);
 ```
 
-### 打开文件夹
+**打开文件夹**
 
 ```c++
 //实现打开的槽函数
@@ -467,7 +540,7 @@ void MainWindow::openAcionSlot()
 }
 ```
 
-### 另存为文件夹
+**另存为文件夹**
 
 ```c++
 //实现另存为的槽函数
@@ -497,7 +570,7 @@ void MainWindow::saveAcionSlot()
 }
 ```
 
-### 新建文件
+**新建文件**
 
 ```c++
 //实现新建的槽函数
@@ -521,7 +594,7 @@ QCoreApplication::applicationFilePath()
 
 ## TextEdit
 
-### 末尾追加写入
+**末尾追加写入**
 
 ```c++
 void MainWindow::connectLog(QString IP, QString port,QString state)
@@ -548,7 +621,7 @@ void MainWindow::connectLog(QString IP, QString port,QString state)
 }
 ```
 
-### 清空
+**清空**
 
 ```c++
 void MainWindow::on_pushButton_clicked()
@@ -569,7 +642,7 @@ void MainWindow::on_pushButton_clicked()
 
 # 事件
 
-## Introduction
+## 介绍
 
 Qt将系统产生的消息转化为Qt事件，Qt事件被封装为对象，所有Qt事件继承抽象类QEvevt（自动触发），用于描述程序内部或外部发生的动作，任意QObject对象都具备处理Qt事件的能力。
 
@@ -579,15 +652,15 @@ Qt将系统产生的消息转化为Qt事件，Qt事件被封装为对象，所�
 
 ## Qt事件类型
 
-> * 键盘事件
-> * 鼠标事件
-> * 拖放时间
-> * 滚轮事件
-> * 绘屏事件
-> * 定时事件
-> * 移动时间
-> * 大小改变事件
-> * 显示和隐藏事件
+- 键盘事件
+- 鼠标事件
+- 拖放时间
+- 滚轮事件
+- 绘屏事件
+- 定时事件
+- 移动时间
+- 大小改变事件
+- 显示和隐藏事件
 
 ## 示例
 
@@ -635,7 +708,7 @@ void MainWindow::mousePressEvent(QMouseEvent *m)
 
 # TCP
 
-## Introduction
+## 简介
 
 |  服务器   | 客户端  |
 | :-------: | :-----: |
@@ -654,7 +727,7 @@ QT       += core gui network
 
 ## TCP客户端
 
-### 示例
+**示例**
 
 1. .h文件中创建对象
 
@@ -724,7 +797,7 @@ connect(socket,&QTcpSocket::connected,[this](){
 
 ## TCP服务器（非多线程）
 
-### 示例
+**示例**
 
 1. .h文件中创建对象
 
@@ -762,9 +835,9 @@ void Widget::newClientHandler()
 }
 ```
 
-## TCP服务器与客户端互传消息
+## 互传消息
 
-### 单个数据
+**单个数据**
 
 1. 发送数据
 
@@ -792,7 +865,7 @@ void Widget::clientInfoSlots()
 }
 ```
 
-### 多个数据
+**多个数据**
 
 实现服务器端客户端发送不同消息方式
 
@@ -973,7 +1046,7 @@ void MyTcpServer::sendClientLog_and_delete(QString IP, QString port,QString stat
 }
 ```
 
-## 注意
+注
 
 1. socket不能跨线程使用
 
@@ -1089,11 +1162,11 @@ void Widget::on_findPushButton_clicked()
 }
 ```
 
-## tableView
+# tableView
 
 专门用于对数据库进行增删改查。
 
-### 步骤
+**步骤**
 
 1. 声明对象
 
@@ -1201,23 +1274,21 @@ if(data.startsWith("CMD4:"))       //新增
 }
 ```
 
-# 其他
+# 添加图片资源
 
-## 添加图片资源
-
-1. 新建Qt Resource file，如：res.qrc
+1. 新建Qt Resource file，选择`res.qrc`
 2. 添加前缀
 3. 添加文件
 4. 复制资源路径即可
 
-## 发布步骤
+# 发布步骤
 
 1. 项目构建中选择 release
 2. 在项目文件夹如中 ‘Desktop_Qt_6_5_3_MinGW_64_bit-Release’ 中打开 ’release‘
 3. 拷贝 ‘××.exe’ 文件到一空白文件夹中
 4. 打开Qt命令行编辑器
-5. 转到目标空白文件夹中，如：cd /d C:\Users\lenovo\OneDrive\桌面\GreenSoftwarePack
-6. 输入命令 windeployqt ***.exe ，windeployqt工具将把该exe程序所依赖的库文件拷贝到该文件夹下
+5. 转到目标空白文件夹中，如：`cd /d C:\Users\lenovo\OneDrive\桌面\GreenSoftwarePack`
+6. 输入命令 `windeployqt ***.exe` ，windeployqt工具将把该exe程序所依赖的库文件拷贝到该文件夹下
 
 注
 
