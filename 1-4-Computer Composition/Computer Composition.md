@@ -12,7 +12,7 @@ CPU（中央处理器，Central Processing Unit），拥有较少的计算单元
 
 GPU（图形处理器，Graphics Processing Unit），而GPU仅具有少量的简单控制单元和小型储存单元来控制多线程处理和储存少量并行指令，但具有数量极大的计算单元，使得GPU拥有单一的强大并行计算能力，善于处理大规模重复计算。
 
-# cache
+# Cache
 
 ## 为什么需要Cache
 

@@ -72,9 +72,9 @@ Real Time OS，实时操作系统，强调实时性，按时间片并发执行�
 ## 移植步骤
 
 1. 添加FreeRTOS源码：将FreeRTOS源码添加至基础工程、头文件路径等
-2. FreeRTOSConfig.h：添加FreeRTOSConfig.h 配置文件
-3. 修改SYSTEM文件：修改SYSTEM文件中的sys.c、delay.c、usart.c
-4. 修改中断相关文件：修改Systick中断、SVC中断、PendSV中断
+2. 添加修改FreeRTOSConfig.h：添加FreeRTOSConfig.h 配置文件，修改SysTick时钟频率、内核时钟频率以及系统时钟节拍频率等
+3. 修改SYSTEM文件：修改SYSTEM文件中的sys.c、delay.c、usart.c不适配FreeRTOS部分，在dealy.c添加xPortSysTickHandler()使用systick作为FreeRTOS的心跳，并修改delay_init()、delay_ms()等函数
+4. 修改中断相关文件：屏蔽stm32f×××_it.c中的Systick中断、SVC中断、PendSV中断
 5. 添加应用程序：验证移植是否成功
 
 ## FreeRTOSConfig.h
