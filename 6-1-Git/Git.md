@@ -438,6 +438,9 @@ git push <remote_name> --delete <tag_name>	# 删除远程仓库的标签
 
 ```shell
 git remote add [shortname] <url>	 # shortname为别名， url为远程仓库的地址
+
+git remote add [shortname] https://<Token>@github.com/<用户名>/<仓库名>.git
+git remote add [shortname]  https://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@github.com/Kenvily/knowledge-organization 
 ```
 
 注
