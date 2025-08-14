@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>res/setting.svg</file>
+        <file>res/alcohol.svg</file>
+        <file>res/humi.svg</file>
+        <file>res/smoke.svg</file>
+        <file>res/temp.svg</file>
+        <file>res/alarm.svg</file>
+        <file>res/window.svg</file>
+        <file>res/light.svg</file>
+        <file>res/icon.svg</file>
+        <file>res/switch_off.svg</file>
+        <file>res/main_on.svg</file>
+        <file>res/main_off.svg</file>
+        <file>res/switch_on.svg</file>
+    </qresource>
+</RCC>

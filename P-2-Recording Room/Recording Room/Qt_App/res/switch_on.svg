@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- 由 Microsoft Visio, SVG Export 生成 绘图1.svg switch_off -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events"
+		xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/" width="4.4637in" height="2.08333in"
+		viewBox="0 0 321.387 150" xml:space="preserve" color-interpolation-filters="sRGB" class="st3">
+	<v:documentProperties v:langID="2052" v:viewMarkup="false"/>
+
+	<style type="text/css">
+	<![CDATA[
+		.st1 {fill:#80eee0;stroke:none;stroke-linecap:butt;stroke-width:0.146484}
+		.st2 {fill:#ffffff;stroke:none;stroke-linecap:butt;stroke-width:0.146484}
+		.st3 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+	]]>
+	</style>
+
+	<g v:mID="0" v:index="1" v:groupContext="foregroundPage">
+		<title>switch_off</title>
+		<v:pageProperties v:drawingScale="1" v:pageScale="1" v:drawingUnits="19" v:shadowOffsetX="9" v:shadowOffsetY="-9"/>
+		<g id="shape1-1" v:mID="1" v:groupContext="shape" transform="translate(6.39488E-14,-36.0655)">
+			<title>工作表.1</title>
+			<path d="M56.97 36.07 L187.18 36.07 C225.16 36.07 244.15 55.05 244.15 93.03 C244.15 131.01 225.16 150 187.18 150 L56.97
+						 150 C18.99 150 0 131.01 0 93.03 C0 55.05 18.99 36.07 56.97 36.07 Z" class="st1"/>
+		</g>
+		<g id="shape2-3" v:mID="2" v:groupContext="shape" transform="translate(139.5,-44.2037)">
+			<title>工作表.2</title>
+			<path d="M0 101.17 A48.8291 48.8291 -180 1 0 97.66 101.17 A48.8291 48.8291 -180 1 0 0 101.17 Z" class="st2"/>
+		</g>
+	</g>
+</svg>
