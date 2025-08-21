@@ -49,7 +49,7 @@
 
 正点原子STM32F103ZET6（MCU），具有丰富的I/O引脚（约110个），在不接外设的情况下满足项目功能需求。
 
-<img src="C:\Users\lenovo\OneDrive\桌面\work\knowledge-organization\P-1-Clothing Warehouse IoT System\img\image33.png" style="zoom:50%;" />
+<img src=".\img\image33.png" style="zoom:50%;" />
 
 ## 引脚模式
 
@@ -87,7 +87,7 @@
 
 # 串行通信接口
 
-<img src="C:\Users\lenovo\OneDrive\桌面\work\knowledge-organization\P-1-Clothing Warehouse IoT System\img\image34.png" alt="IMG_256" style="zoom:50%;" />
+<img src=".\img\image34.png" alt="IMG_256" style="zoom:50%;" />
 
 ## UART
 
@@ -227,7 +227,7 @@ MQTT建立客户端到服务器的连接，提供两者之间的一个有序的�
 
 - payload：可以理解为消息的内容，指订阅者具体接收到的内容
 
-<img src="C:\Users\lenovo\OneDrive\桌面\work\knowledge-organization\P-1-Clothing Warehouse IoT System\img\image35.png" alt="IMG_256" style="zoom:80%;" />
+<img src=".\img\image35.png" alt="IMG_256" style="zoom:80%;" />
 
 ## MQTTfx
 
