@@ -147,7 +147,7 @@ git config --list 				# 查看配置
 
 ```shell
 git init					# 当前目录下初始化本地仓库 
-git init newDir 	# 在newDir目录下生成一个.git目录 
+git init newDir 			# 在newDir目录下生成一个.git目录 
 ```
 
 生成.git隐藏文件夹（Git 仓库的骨干），且会默认生成一个master分支。
@@ -155,7 +155,7 @@ git init newDir 	# 在newDir目录下生成一个.git目录
 ### 克隆仓库
 
 ```shell
-git clone <repository_url> 														# 将Git仓库master分支拷贝到本地
+git clone <repository_url> 								# 将Git仓库master分支拷贝到本地
 git clone -b <repository_branch> <repository_url> 		# 将Git仓库指定分支拷贝到本地
 ```
 
@@ -175,7 +175,7 @@ git clone git://github.com/schacon/grit newgit	# 克隆远程仓库，目标目�
 
 ```shell
 git status			# 查看当前状态（所在分支、进行的修改提交）
-git status -s 	# 更为紧凑的输出
+git status -s 		# 更为紧凑的输出
 ```
 
 工作目录下的每一个文件都不外乎这两种状态：**已跟踪**或**未跟踪(untracked)**。 已跟踪的文件是指那些被纳入了版本控制的文件；工作目录中除已跟踪文件外的其它所有文件都属于未跟踪文件，它们既不存在于上次快照的记录中，也没有被放入暂存区。
@@ -185,7 +185,7 @@ git status -s 	# 更为紧凑的输出
 比较工作目录中当前文件和暂存区域快照之间的差异，也就是修改之后还没有暂存起来的变化内容。
 
 ```shell
-git diff						# 查看详细状态
+git diff			# 查看详细状态
 git diff --staged 	# 比对已暂存文件与最后一次提交的文件差异
 ```
 
@@ -198,7 +198,7 @@ git diff --staged 	# 比对已暂存文件与最后一次提交的文件差异
 
 ```shell
 git add <fileName>
-git add.						# 全部文件添加到暂存区
+git add.					# 全部文件添加到暂存区
 git add *.c 				# 将全部c文件添加到暂存区
 ```
 
@@ -206,8 +206,8 @@ git add *.c 				# 将全部c文件添加到暂存区
 
 ```shell
 git commit -m "log_info" fileName
-git commit -m "log_info"	# 暂存区中文件全部提交
-git commit -am "log_info" # 跳过add,直接提交
+git commit -m "log_info"			# 暂存区中文件全部提交
+git commit -am "log_info" 			# 跳过add,直接提交
 
 # 最终只会有一个提交——第二次提交将代替第一次提交的结果
 git commit -m 'initial commit'
@@ -222,10 +222,10 @@ git commit --amend
 ### 移除文件
 
 ```shell
-git rm <fileName>						# 移除文件 不允许已经放到暂存区域
+git rm <fileName>					# 移除文件 不允许已经放到暂存区域
 git rm -f <fileName>				# 强制移除 允许已经放到暂存区域
 git rm –r <fileDir>					# 递归删除
-git rm --cached <fileName>	# 把文件从暂存区删除，但在工作区保留
+git rm --cached <fileName>			# 把文件从暂存区删除，但在工作区保留
 ```
 
 ### 取消暂存区内容
@@ -237,7 +237,7 @@ git rm --cached <fileName>	# 把文件从暂存区删除，但在工作区保留
 ### 撤消对文件的修改
 
 ```shell
-git checkout -- <fileName> 	# 撤消修改——将它还原成上次提交时的样子
+git checkout -- <fileName> 		# 撤消修改——将它还原成上次提交时的样子
 ```
 
 注
@@ -265,10 +265,10 @@ git add README
 ### 查看历史版本
 
 ```shell
-git reflog					# 显示所有的操作记录，包括提交，回退的操作
+git reflog						# 显示所有的操作记录，包括提交，回退的操作
 git log  						# 按时间先后顺序列出所有的提交，最近的更新排在最上面
-git log -p -number	# 显示每次提交所引入的差异并限制显示的日志条目数量
-git log --stat  		# 附带一系列的总结性选项
+git log -p -number				# 显示每次提交所引入的差异并限制显示的日志条目数量
+git log --stat  				# 附带一系列的总结性选项
 ```
 
 关于`git log`的几种选项
@@ -285,9 +285,9 @@ git log --stat  		# 附带一系列的总结性选项
 ### 版本穿梭
 
 ```shell
-git checkout <commit_hash>			# 转到该版本，不重置头指针，进入头分离指针状态 常用于查看代码
+git checkout <commit_hash>				# 转到该版本，不重置头指针，进入头分离指针状态 常用于查看代码
 git reset <commit_hash>					# 重置版本，重置头指针，重置暂存区，不重置工作区 不常用
-git reset --hard <version_num>	# 重置版本，重置头指针，重置暂存区和工作区
+git reset --hard <version_num>			# 重置版本，重置头指针，重置暂存区和工作区
 ```
 
 注
@@ -317,11 +317,11 @@ Git 的分支，其实本质上仅仅是指向提交对象的可变指针。使�
 ### 查看/创建分支
 
 ```shell
-git branch							# 查看本地分支
+git branch					# 查看本地分支
 git branch <branchName>		# 在当前所在的提交对象上创建一个指针
-git branch -v 					# 查看每一个分支的最后一次提交
+git branch -v 				# 查看每一个分支的最后一次提交
 git branch --merged 		# 查看哪些分支已经合并到当前分支
-git branch --no-merged	# 查看所有未合并工作的分支
+git branch --no-merged		# 查看所有未合并工作的分支
 ```
 
 注
@@ -338,7 +338,7 @@ git checkout -b <branchName> 	# 创建新分支并立即切换到该分支下
 ### 合并分支
 
 ```shell
-git merge <branchName>		# 将branchName分支合并到到当前分支中
+git merge <branchName>			# 将branchName分支合并到到当前分支中
 ```
 
 注
@@ -428,7 +428,7 @@ git show <vx.x>				# 显示了打标签者的信息、打标签的日期时间�
 ### 删除标签
 
 ```shell
-git tag -d <tag_name>												# 删除一个轻量标签
+git tag -d <tag_name>						# 删除一个轻量标签
 git push <remote_name> --delete <tag_name>	# 删除远程仓库的标签
 ```
 
@@ -437,10 +437,13 @@ git push <remote_name> --delete <tag_name>	# 删除远程仓库的标签
 ### 添加远程仓库
 
 ```shell
+# 1. http方式
 git remote add [shortname] <url>	 # shortname为别名， url为远程仓库的地址
-
 git remote add [shortname] https://<Token>@github.com/<用户名>/<仓库名>.git
 git remote add [shortname]  https://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@github.com/Kenvily/knowledge-organization 
+# 2. ssh方式
+git remote add [shortname] <ssh地址>	# 需提前创建ssh公钥和私钥
+git remote add [shortname] git@github.com:Kenvily/knowledge-organization.git
 ```
 
 注
@@ -450,15 +453,15 @@ git remote add [shortname]  https://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@git
 ### 查看当前远程仓库
 
 ```shell
-git remote							# 查看当前有哪些远程仓库
+git remote						# 查看当前有哪些远程仓库
 git remote -v 					# 显示需要读写远程仓库使用的 Git保存的简写与其对应的URL
-git remote show remote	# 查看某一个远程仓库的更多信息
+git remote show remote			# 查看某一个远程仓库的更多信息
 ```
 
 ### 提取远程仓库数据
 
 ```shell
-git fetch <remote_name>								# 拉取remote_name仓库中有但你没有的信息
+git fetch <remote_name>					# 拉取remote_name仓库中有但你没有的信息
 ```
 
 该命令执行完后需要执行git merge远程分支到你所在的分支，如
@@ -470,7 +473,7 @@ git merge <remote_name/branchName>		# 将 remote_name/branchName 分支上的更
 ### 拉取远程仓库数据并合并
 
 ```shell
-git pull <remote_name> <branchName>										# 将远程仓库 remote_name 的 branchName 分支的更改拉取到本地分支
+git pull <remote_name> <branchName>							# 将远程仓库 remote_name 的 branchName 分支的更改拉取到本地分支
 git pull <remote_name> <branchName>:<localBranchName>		# 从 remote_name 远程仓库的 branchName 分支拉取代码，并尝试合并到本地的 localBranchName 分支。如果本地分支不存在，Git 会创建它。
 ```
 
@@ -487,10 +490,10 @@ git pull <remote_name> <branchName>:<localBranchName>		# 从 remote_name 远程�
 
 ```shell
 git push <remote_name> <branchName>			# 推送分支与数据到远端仓库指定分支（若分支不存在则自动创建）
-git push -f <remote_name> <branchName>	# 强制推送分支与数据到远端仓库(确保本地为想要版本)
-git push <remote_name> HEAD  						# 将本地的任何分支推送到远程仓库的同名分支 
+git push -f <remote_name> <branchName>		# 强制推送分支与数据到远端仓库(确保本地为想要版本)
+git push <remote_name> HEAD  				# 将本地的任何分支推送到远程仓库的同名分支 
 git push <remote_name> <tag_name> 			# 显式地推送标签到共享服务器上
-git push <remote_name> --tags						# 一次性推送很多标签
+git push <remote_name> --tags				# 一次性推送很多标签
 ```
 
 注
@@ -510,7 +513,7 @@ git remote rename <pb> <paul>		# 将pb重命名为 paul
 ### 删除远程仓库
 
 ```shell
-git remote rm <remote_name>		# remote_name为别名
+git remote rm <remote_name>			# remote_name为别名
 ```
 
 # GitHub
