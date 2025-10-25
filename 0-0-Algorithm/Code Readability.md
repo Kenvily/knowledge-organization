@@ -217,3 +217,5 @@ public int findClostElement(int[] arr) {
 - 不要过度设计，编码过程会有很多变化，过度设计的内容到最后往往是无用的
 
 - 多用标准库实现
+
+

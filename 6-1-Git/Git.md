@@ -136,9 +136,9 @@ Git 的版本库有一个称为 Stage 的暂存区以及最后的 History 版本
 Git首次安装必须设置一下用户签名，否则无法提交代码。
 
 ```shell
-git config --global user.name your_username
-git config --global user.email your_email
-git config --list 		# 查看配置
+git config --global user.name "your_username"
+git config --global user.email "your_email"
+git config --list 				# 查看配置
 ```
 
 ## 基础命令
