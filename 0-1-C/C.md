@@ -444,18 +444,18 @@ extern 存储类用于提供一个全局变量的引用，全局变量对所有�
 **常量指针**
 
 ```c
-    /* 指向常量的指针 */
+/* 指向常量的指针 */
 
-    int const a = 1;
-    int b = 2;
+int const a = 1;
+int b = 2;
 
-    int const *pa = &a;
-    printf("The pointer pa points at the const int varible %d.\n", *pa);
+int const *pa = &a;
+printf("The pointer pa points at the const int varible %d.\n", *pa);
 
-    //*pa = b;      不能通过间接访问操作“*”来更改pa所指向变量的值
+//*pa = b;      不能通过间接访问操作“*”来更改pa所指向变量的值
 
-    pa = &b;        //但pa本身的值可以改变
-    printf("The pointer pa points at the int varible %d.\n", *pa);
+pa = &b;        //但pa本身的值可以改变
+printf("The pointer pa points at the int varible %d.\n", *pa);
 ```
 
 运行结果
@@ -468,18 +468,18 @@ The pointer pa points at the int varible 2.
 **指针常量**
 
 ```c
-    /* 指针常量 */
+/* 指针常量 */
 
-    int a = 1;
-    int const b = 2;
+int a = 1;
+int const b = 2;
 
-    int *const pa = &a;
-    printf("The const pointer pa points at the int varible %d.\n", *pa);
+int *const pa = &a;
+printf("The const pointer pa points at the int varible %d.\n", *pa);
 
-    //pa = &b;      //pa本身的值不可更改，即：它“只能指向”变量a
+//pa = &b;      //pa本身的值不可更改，即：它“只能指向”变量a
 
-    *pa = b;        //虽然pa“只能指向”变量a，但变量a是可以更改的
-    printf("The const pointer pa points at the changed int varible %d.\n", *pa);
+*pa = b;        //虽然pa“只能指向”变量a，但变量a是可以更改的
+printf("The const pointer pa points at the changed int varible %d.\n", *pa);
 ```
 
 运行结果
@@ -1059,7 +1059,41 @@ return_type function_name( parameter list );
 |                           调用类型                           |                             描述                             |
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | [传值调用](https://www.runoob.com/cprogramming/c-function-call-by-value.html) | 该方法把参数的实际值复制给函数的形式参数。在这种情况下，修改函数内的形式参数不会影响实际参数 |
-| [引用调用](https://www.runoob.com/cprogramming/c-function-call-by-pointer.html) | 通过指针传递方式，形参为指向实参地址的指针，当对形参的指向操作时，就相当于对实参本身进行的操作 |
+| [引用调用](https://www.runoob.com/cprogramming/c-function-call-by-pointer.html) |                    通过指针/引用传递方式                     |
+
+- 传值调用，实参与形参地址不同，但是值相同
+- 传引用时，实参和形参地址相同
+- 传指针时，指针变量的地址不同，但是指向的（值）地址相同
+
+**举例**
+
+```c
+int recvMsg(int cfd, char* msg)
+{
+    // 接收数据
+    // 1. 读数据头
+    int len = 0;
+    readn(cfd, (char*)&len, 4);
+    len = ntohl(len);
+    printf("数据块大小: %d\n", len);
+
+    // 根据读出的长度分配内存，+1 -> 这个字节存储\0
+    char *buf = (char*)malloc(len+1);
+    int ret = readn(cfd, buf, len);
+    if(ret != len)
+    {
+        close(cfd);
+        free(buf);
+        return -1;
+    }
+    buf[len] = '\0';
+    msg = buf;
+
+    return ret;
+}
+
+// 函数退出后，msg指针变量值仍不变，形参应改为二级指针
+```
 
 # 数组
 
@@ -1253,18 +1287,43 @@ if(ptr)     /* 如果 p 非空，则完成 */
 if(!ptr)    /* 如果 p 为空，则完成 */
 ```
 
-## 野指针
+## 野指针与悬空指针
 
-在C语言中，野指针（wild pointer）是指指向不确定内存地址的指针。野指针的产生通常是由于编程错误导致的，它们可能会引发程序崩溃、数据损坏或其他不可预测的行为。
+**野指针**
 
-**产生原因可能有**
+没有被初始化的指针，指向一个随机的、不确定的内存地址。
 
-- 使用未初始化的指针
-- 操作释放后的指针
-- 指针运算错误
-- 数组越界
+例如
 
-通过初始化指针、释放内存后将指针设置为NULL、检查指针是否为空、避免指针运算错误和数组越界等方法，可以有效避免野指针的产生，从而提高程序的稳定性和可靠性。
+```c
+int *p;   // 没有初始化
+*p = 10;  // ❌ 危险
+
+// 可视化
+p  ──────> ??????  (随机内存)
+```
+
+**悬空指针**
+
+指针曾经指向有效内存，但该内存已经被释放。
+
+例如
+
+```c
+int *p = malloc(sizeof(int));
+*p = 10;
+
+free(p);
+
+*p = 20;   // ❌ 悬空指针
+
+// 可视化
+p  ──────> [已释放的内存]
+```
+
+注
+
+1. free 后 p 仍然不等于 NULL，必须手动 p = NULL
 
 ## 指针详解
 
@@ -1348,13 +1407,13 @@ int main()
 ```c
 #include <stdlib.h>  
 #include <stdio.h>
- 
+
 /* populate_array() 函数定义了三个参数，其中第三个参数是函数指针，通过该函数来设置数组的值
 */
 void populate_array(int *array, size_t arraySize, int (*getNextValue)(void))
 {
     for (size_t i=0; i<arraySize; i++)
-        array[i] = getNextValue();
+        array[i] = (*getNextValue)();
 }
  
 /* 定义回调函数 getNextRandomValue()
@@ -1369,7 +1428,7 @@ int main(void)
 {
     int myarray[10];
     
-    populate_array(myarray, 10, getNextRandomValue);
+    populate_array(myarray, 10, &getNextRandomValue);
     for(int i = 0; i < 10; i++) {
         printf("%d ", myarray[i]);
     }
@@ -3177,6 +3236,10 @@ C 语言提供了一些函数和运算符，使得程序员可以对内存进行
 |  void \*malloc(int num);   |  在堆区分配一块指定大小的内存空间，用来存放数据。这块内存空间在函数执行完成后不会被初始化，它们的值是未知的 |
 |  void \*realloc(void \*address, int newsize);   |  该函数重新分配内存，把内存扩展到 newsize |
 
+注
+
+1. `malloc`只分配结构体本身，结构体中指针指向的内容必须单独`malloc`
+
 ## 动态分配内存
 
 当动态分配内存时，可以传递任何大小的值。而预先定义了大小的数组，一旦定义则无法改变大小。
@@ -3257,6 +3320,7 @@ int main()
  
    /* 使用 free() 函数释放内存 */
    free(description);
+   description = NULL; 		// 置NULL,避免野指针
 }
 ```
 
@@ -3282,7 +3346,7 @@ int main()
 - sizeof 运算符：用于获取数据类型或变量的大小（以字节为单位）
 - 指针运算符：用于获取指针所指向的内存地址或变量的值
 - & 运算符：用于获取变量的内存地址
-- * 运算符：用于获取指针所指向的变量的值
+- \* 运算符：用于获取指针所指向的变量的值
 - memcpy() 函数：用于从源内存区域复制数据到目标内存区域。它接受三个参数，即目标内存区域的指针、源内存区域的指针和要复制的数据大小（以字节为单位）
 - memmove() 函数：类似于 memcpy() 函数，但它可以处理重叠的内存区域。它接受三个参数，即目标内存区域的指针、源内存区域的指针和要复制的数据大小（以字节为单位）
 
