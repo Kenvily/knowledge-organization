@@ -1,0 +1,16 @@
+{
+  "livePreview": true,
+  "readableLineLength": false,
+  "strictLineBreaks": true,
+  "propertiesInDocument": "source",
+  "foldIndent": true,
+  "defaultViewMode": "preview",
+  "pdfExportSettings": {
+    "includeName": true,
+    "pageSize": "A4",
+    "landscape": false,
+    "margin": "0",
+    "downscalePercent": 100
+  },
+  "showInlineTitle": false
+}

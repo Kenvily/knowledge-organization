@@ -1,6 +1,3 @@
----
-number headings: auto, first-level 1, max 6, 1.1
----
 <font size = 6>Pytorch</font>
 
 [toc]
