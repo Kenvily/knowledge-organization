@@ -1354,7 +1354,39 @@ user  程序在用户态消耗CPU时间
 sys   程序在内核态消耗CPU时间
 ```
 
+**curl**
 
+`curl` 是常用的命令行网络请求工具，可以通过 HTTP/HTTPS 等协议与服务器进行通信，常用于测试 API、发送 GET/POST 请求、设置请求头以及上传/下载数据。
+
+```
+curl <URL>                                  # 发送 GET 请求
+curl -X POST <URL>                          # 发送 POST 请求
+curl -X DELETE <URL>                        # 发送 DELETE 请求
+curl -H "Content-Type: application/json" <URL>   # 设置请求头
+curl -d '{"name":"test"}' <URL>             # 设置请求体数据
+curl -X POST <URL> -H "Content-Type: application/json" \
+     -d '{"name":"test"}'                   # 发送 JSON POST 请求
+curl -o <filename> <URL>                    # 下载并保存为指定文件
+curl -O <URL>                               # 使用远程文件名保存
+curl -I <URL>                               # 只查看响应头
+curl -i <URL>                               # 同时显示响应头和响应体
+curl -v <URL>                               # 显示详细请求/响应过程
+-L <URL>                                    # 自动跟随 HTTP 重定向
+-X <METHOD>                                 # 指定 HTTP 请求方法
+-H <header>                                 # 添加 HTTP Header
+-d <data>                                   # 添加 HTTP Request Body
+-o <filename>                               # 将响应保存到指定文件
+```
+
+例如
+
+```
+curl -X POST 'http://127.0.0.1:8000/api/tasks' \
+  -H 'Content-Type: application/json' \
+  -d '{"task_type":"data_analysis","priority":5}'
+```
+
+表示向 `/api/tasks` 发送 POST 请求，并使用 JSON 格式提交请求数据。
 
 # 磁盘管理
 
